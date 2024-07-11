@@ -1,4 +1,4 @@
-# p5.js Snippets
+# Snippets
 
 ## Introduction
 
