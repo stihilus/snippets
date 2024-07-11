@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Snippets: The Art of Tiny Code</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            "bright-orange": "#EB5A29",
+                            "dark-grey": "#1E1E1E",
+                            "code-grey": "#2A2A2A",
+                        },
+                        fontFamily: {
+                            sans: ["Space Grotesk", "sans-serif"],
+                        },
+                        borderRadius: {
+                            full: "50px",
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            body {
+                font-family: "Space Grotesk", sans-serif;
+            }
+            .btn {
+                height: 23px;
+                padding-top: 0;
+                padding-bottom: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.875rem;
+                line-height: 1;
+                text-transform: lowercase;
+            }
+            .copy-btn {
+                background-color: #eb5a29;
+                color: black;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 0.8rem;
+                transition: background-color 0.3s;
+            }
+            .copy-btn:hover {
+                background-color: #d04d23;
+            }
+        </style>
+    </head>
+    <body class="bg-black text-white">
+        <nav class="bg-dark-grey shadow-md p-4">
+            <div class="container mx-auto">
+                <div
+                    class="w-full md:w-1/2 mx-auto flex justify-between items-center"
+                >
+                    <a href="/" class="flex items-center">
+                        <img
+                            src="logo.svg"
+                            alt="p5.js Snippets Logo"
+                            class="h-8 mr-2"
+                        />
+                    </a>
+                    <div class="flex items-center">
+                        <a
+                            href="/tutorial"
+                            class="btn text-bright-orange px-4 rounded-full hover:bg-opacity-80"
+                            >tutorial</a
+                        >
+                        <a
+                            href="/"
+                            class="btn bg-bright-orange text-black px-4 rounded-full hover:bg-opacity-80 mr-2"
+                            >home</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto mt-8 px-4">
+            <div class="w-full md:w-1/2 mx-auto">
+                <h1 class="text-4xl font-bold mb-6">
+                    p5.js Snippets: The Art of Tiny Code
+                </h1>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Welcome to the Tiny Code Revolution!
+                    </h2>
+                    <p class="mb-4">
+                        Imagine you're a digital artist, but instead of a
+                        canvas, you have just 280 characters to create your
+                        masterpiece. Sounds impossible? Welcome to the world of
+                        p5.js Snippets, where we turn limitations into
+                        liberation!
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        What's p5.js, and Why Should You Care?
+                    </h2>
+                    <p class="mb-4">
+                        p5.js is like the Swiss Army knife of creative coding.
+                        It's a JavaScript library that makes creating
+                        interactive visual art and animations as easy as
+                        doodling on a napkin. Whether you're an artist who's
+                        never coded before or a seasoned programmer looking to
+                        flex your creative muscles, p5.js has got your back.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Tiny Code: When Less is More (Fun)
+                    </h2>
+                    <p class="mb-4">
+                        Tiny code is all about creating mind-blowing visuals
+                        with minimal keystrokes. It's like the haiku of the
+                        programming world – beautiful, concise, and packing a
+                        punch. Our challenge? Create visually stunning or
+                        conceptually intriguing sketches in just 280 characters.
+                        It's not just about saving characters; it's about
+                        unleashing your creativity under constraints.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        The Mysterious 's' Object: Your Magic Wand
+                    </h2>
+                    <p class="mb-4">
+                        Now, let's talk about our little friend 's'. Imagine
+                        you're at a fancy cocktail party (the kind where code is
+                        the drink of choice). You want to use p5.js functions,
+                        but you don't want to be that person who hogs all the
+                        global variables. Enter 's' – your personal butler who
+                        fetches all the p5.js goodies for you.
+                    </p>
+                    <p class="mb-4">
+                        Why 's'? Well, 's' stands for "sketch," but we like to
+                        think it's short for "super-cool-code-savior." By using
+                        's.', you're basically saying, "Hey, p5.js, could you
+                        please pass me that function? Thanks, you're a gem!" It
+                        keeps your code tidy and plays nice with others in the
+                        grand ballroom of your web page.
+                    </p>
+                    <pre class="bg-code-grey p-4 rounded mb-4">
+    // Instead of crashing the party with:
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+    }
+
+    // Be a polite guest and use:
+    s.setup = () => {
+      s.createCanvas(s.windowWidth, s.windowHeight);
+    }
+
+    // It's not just good manners, it's good coding!</pre
+                    >
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Compressing Code: The Art of Digital Origami
+                    </h2>
+                    <p class="mb-4">
+                        Ready to fold your code into a tiny, beautiful shape?
+                        Here are some ninja techniques:
+                    </p>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>
+                            Use short variable names (x instead of positionX)
+                        </li>
+                        <li>
+                            Embrace the 's' object like it's your coding BFF
+                        </li>
+                        <li>
+                            Squish multiple statements into one line (semicolons
+                            are your friends)
+                        </li>
+                        <li>
+                            Arrow functions: Because who needs the word
+                            "function" anyway?
+                        </li>
+                        <li>
+                            Implicit returns in arrow functions (return? What
+                            return?)
+                        </li>
+                        <li>
+                            Shorthand operators (+=, *=) – because typing is so
+                            last year
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Example: 280 Characters of Pure Magic
+                    </h2>
+                    <p class="mb-4">
+                        Behold, a mesmerizing, ever-changing pattern of colorful
+                        circles, all in 280 characters:
+                    </p>
+                    <pre class="bg-code-grey p-4 rounded mb-4">
+    s.setup=_=>s.createCanvas(s.windowWidth,s.windowHeight);
+    s.draw=_=>{s.background(0,10);
+    for(let i=0;i<50;i++){let t=s.frameCount/50,x=s.noise(i,t)*s.width,y=s.noise(i+5,t)*s.height;s.fill(s.noise(i+10,t)*255,s.noise(i+15,t)*255,s.noise(i+20,t)*255);
+    s.circle(x,y,s.noise(i+25,t)*s.width/15)}}</pre
+                    >
+                    <div
+                        id="exampleSketch"
+                        class="w-full aspect-square mb-4"
+                    ></div>
+                    <p class="mb-4">
+                        This little wonder uses Perlin noise to create smooth,
+                        natural-looking motion and color transitions. It's like
+                        a lava lamp, but cooler because you made it!
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Your Turn: Tiny Code Challenges
+                    </h2>
+                    <p class="mb-4">
+                        Ready to create your own miniature masterpieces? Here
+                        are some bite-sized challenges to get your creative
+                        juices flowing:
+                    </p>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Create a pulsating circle that changes color</li>
+                        <li>Make a simple particle system</li>
+                        <li>Draw a spiral that grows over time</li>
+                        <li>
+                            Create a mini-game where you dodge moving obstacles
+                        </li>
+                    </ul>
+                    <p class="mb-4">
+                        Remember, 280 characters is your canvas. Paint it with
+                        code!
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Join the Tiny Code Community
+                    </h2>
+                    <p class="mb-4">
+                        p5.js Snippets is more than just a platform; it's a
+                        community of creative coders pushing the boundaries of
+                        what's possible in 280 characters. Share your creations,
+                        discover mind-bending sketches, and connect with fellow
+                        tiny code enthusiasts.
+                    </p>
+                    <p class="mb-4">
+                        So, are you ready to think big by coding small? Dive in,
+                        get creative, and show the world what you can do with
+                        just a handful of characters. Welcome to p5.js Snippets
+                        – where every character counts!
+                    </p>
+                </section>
+            </div>
+        </div>
+
+        <script>
+            function copyToClipboard(button) {
+                const preElement = button.previousElementSibling;
+                const textToCopy = preElement.textContent;
+
+                navigator.clipboard
+                    .writeText(textToCopy)
+                    .then(() => {
+                        button.textContent = "Copied!";
+                        setTimeout(() => {
+                            button.textContent = "Copy";
+                        }, 2000);
+                    })
+                    .catch((err) => {
+                        console.error("Failed to copy text: ", err);
+                    });
+            }
+
+            new p5((s) => {
+                s.setup = (_) => s.createCanvas(s.windowWidth, s.windowHeight);
+                s.draw = (_) => {
+                    s.background(0, 10);
+                    for (let i = 0; i < 50; i++) {
+                        let t = s.frameCount / 50,
+                            x = s.noise(i, t) * s.width,
+                            y = s.noise(i + 5, t) * s.height;
+                        s.fill(
+                            s.noise(i + 10, t) * 255,
+                            s.noise(i + 15, t) * 255,
+                            s.noise(i + 20, t) * 255,
+                        );
+                        s.circle(x, y, (s.noise(i + 25, t) * s.width) / 15);
+                    }
+                };
+            }, "exampleSketch");
+        </script>
+    </body>
+</html>
