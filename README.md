@@ -26,8 +26,7 @@ This project is a web application built with Node.js, Express, MongoDB, and p5.j
 ```
 git clone https://github.com/your-username/p5js-snippets.git
 ```
-
-## Install Dependencies:
+Install Dependencies:
 
 ```
 cd p5js-snippets
