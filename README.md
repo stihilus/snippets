@@ -26,14 +26,15 @@ This project is a web application built with Node.js, Express, MongoDB, and p5.j
 ```
 git clone https://github.com/your-username/p5js-snippets.git
 ```
-Install Dependencies:
+
+2. Install Dependencies:
 
 ```
 cd p5js-snippets
 npm install
 ```
 
-2. Set Up Environment Variables:
+3. Set Up Environment Variables:
 
 - Create a . env file in the project root directory
 - Add the following environment variables:
@@ -41,10 +42,10 @@ npm install
 MONGODB_URI=your_mongodb_connection_string
 ```
 
-3. Start the Server:
+4. Start the Server:
 ```
 npm start
 ```
 
-4. Access the Application:
+5. Access the Application:
 Open your web browser and navigate to http://localhost:3000.
