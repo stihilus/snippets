@@ -3,9 +3,26 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- start -->
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-        <meta property="og:image" content="/og-image.png" />
+        <meta
+            property="og:image"
+            content="https://github.com/stihilus/snippets/blob/main/public/og-image.png"
+        />
+        <meta
+            name="twitter:image"
+            content="https://github.com/stihilus/snippets/blob/main/public/og-image.png"
+        />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1600" />
+        <meta property="og:image:height" content="900" />
+        <meta property="og:type" content="website" />
         <title>snippets</title>
+        <meta
+            name="description"
+            content="Tiny code is all about creating mind-blowing visuals with minimal keystrokes."
+        />
+        <!-- end -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
         <link
@@ -54,13 +71,13 @@
                 top: 0;
                 width: 100%;
                 height: 100%;
-                background-color: rgba(0,0,0,0.5);
+                background-color: rgba(0, 0, 0, 0.5);
             }
             .modal-content {
-                background-color: #1E1E1E;
+                background-color: #1e1e1e;
                 margin: 15% auto;
                 padding: 20px;
-                border: 1px solid #EB5A29;
+                border: 1px solid #eb5a29;
                 width: 300px;
                 border-radius: 10px;
             }
@@ -73,7 +90,7 @@
             }
             .close:hover,
             .close:focus {
-                color: #EB5A29;
+                color: #eb5a29;
                 text-decoration: none;
                 cursor: pointer;
             }
@@ -82,15 +99,15 @@
                 width: 100%;
                 padding: 10px;
                 margin: 10px 0;
-                border: 1px solid #EB5A29;
-                background-color: #2A2A2A;
+                border: 1px solid #eb5a29;
+                background-color: #2a2a2a;
                 color: white;
                 border-radius: 5px;
             }
             .modal button {
                 width: 100%;
                 padding: 10px;
-                background-color: #EB5A29;
+                background-color: #eb5a29;
                 color: black;
                 border: none;
                 border-radius: 5px;
@@ -107,9 +124,24 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 class="text-xl font-bold text-bright-orange mb-4">Login</h2>
-                <input type="text" id="loginUsername" placeholder="Username" required>
-                <input type="password" id="loginPassword" placeholder="Password" required>
-                <button id="loginSubmit" class="btn bg-bright-orange text-black mt-4">Login</button>
+                <input
+                    type="text"
+                    id="loginUsername"
+                    placeholder="Username"
+                    required
+                />
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Password"
+                    required
+                />
+                <button
+                    id="loginSubmit"
+                    class="btn bg-bright-orange text-black mt-4"
+                >
+                    Login
+                </button>
             </div>
         </div>
 
@@ -117,10 +149,27 @@
         <div id="registerModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2 class="text-xl font-bold text-bright-orange mb-4">Register</h2>
-                <input type="text" id="registerUsername" placeholder="Choose a username" required>
-                <input type="password" id="registerPassword" placeholder="Choose a password" required>
-                <button id="registerSubmit" class="btn bg-bright-orange text-black mt-4">Register</button>
+                <h2 class="text-xl font-bold text-bright-orange mb-4">
+                    Register
+                </h2>
+                <input
+                    type="text"
+                    id="registerUsername"
+                    placeholder="Choose a username"
+                    required
+                />
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="Choose a password"
+                    required
+                />
+                <button
+                    id="registerSubmit"
+                    class="btn bg-bright-orange text-black mt-4"
+                >
+                    Register
+                </button>
             </div>
         </div>
         <nav class="bg-dark-grey shadow-md p-4">
