@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!-- start -->
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         <meta
             property="og:image"
@@ -22,7 +21,6 @@
             name="description"
             content="Tiny code is all about creating mind-blowing visuals with minimal keystrokes."
         />
-        <!-- end -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
         <link
@@ -283,7 +281,6 @@
             let loggedInUser = null;
             let sketchCount = 0;
 
-            // new
             function checkLoginState() {
                 fetch("/check-auth")
                     .then((response) => response.json())
@@ -295,7 +292,6 @@
                     });
             }
 
-            // new 2
             function handleRouting() {
                 const path = window.location.pathname;
                 if (path === "/") {
@@ -320,8 +316,6 @@
                     document.getElementById("postBtn").disabled = true;
                 }
             }
-
-            // new
 
             function createSketch(parentId, snippetCode) {
                 new p5((s) => {
@@ -357,14 +351,14 @@
                 snippetElement.className =
                     "bg-dark-grey p-4 rounded shadow-md mb-4";
                 snippetElement.innerHTML = `
-                    <a href="/user/${username}" class="font-bold mb-2 block username-link text-bright-orange">${username}</a>
-                    <div id="${sketchId}" class="w-full aspect-square mb-2"></div>
-                    <div class="relative">
-                        <pre class="bg-code-grey p-2 rounded text-xs overflow-x-auto">${snippetCode}</pre>
-                        <button class="copyBtn btn absolute top-2 right-2 bg-bright-orange text-black px-2 rounded-full text-xs hover:bg-opacity-80">Copy</button>
-                    </div>
-                    <div class="text-xs text-gray-400 mt-2">${new Date(timestamp).toLocaleString()}</div>
-                `;
+                <a href="/user/${username}" class="font-bold mb-2 block username-link text-bright-orange">${username}</a>
+                <div id="${sketchId}" class="w-full aspect-square mb-2"></div>
+                <div class="relative">
+                    <pre class="bg-code-grey p-2 rounded text-xs overflow-x-auto">${snippetCode}</pre>
+                    <button class="copyBtn btn absolute top-2 right-2 bg-bright-orange text-black px-2 rounded-full text-xs hover:bg-opacity-80">Copy</button>
+                </div>
+                <div class="text-xs text-gray-400 mt-2">${new Date(timestamp).toLocaleString()}</div>
+            `;
 
                 const feed = document.getElementById("feed");
                 feed.insertBefore(snippetElement, feed.firstChild);
@@ -377,7 +371,6 @@
                     ? `/api/user/${username}`
                     : "/api/snippets";
 
-                // Hide the user header when loading the main feed
                 const userHeader = document.getElementById("userHeader");
                 const snippetInputContainer = document.getElementById(
                     "snippetInputContainer",
@@ -408,7 +401,6 @@
             }
 
             function loadUserProfile(username) {
-                // Show the user header and set the nickname
                 const userHeader = document.getElementById("userHeader");
                 const userNickname = document.getElementById("userNickname");
                 userHeader.classList.remove("hidden");
@@ -443,7 +435,6 @@
                 }
             }
 
-            // Event Listeners
             document.addEventListener("click", (e) => {
                 if (e.target.classList.contains("username-link")) {
                     e.preventDefault();
@@ -472,24 +463,23 @@
                             updateLoginState();
                         });
                     } else {
-                        const username = prompt("Enter your username:");
-                        const password = prompt("Enter your password:");
-                        fetch("/login", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ username, password }),
-                        })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                if (data.success) {
-                                    loggedInUser = data.username;
-                                    updateLoginState();
-                                } else {
-                                    alert("Login failed. Please try again.");
-                                }
-                            });
+                        document.getElementById("loginModal").style.display =
+                            "block";
                     }
                 });
+
+            document
+                .getElementById("registerBtn")
+                .addEventListener("click", () => {
+                    document.getElementById("registerModal").style.display =
+                        "block";
+                });
+
+            document.querySelectorAll(".close").forEach((closeBtn) => {
+                closeBtn.addEventListener("click", () => {
+                    closeBtn.closest(".modal").style.display = "none";
+                });
+            });
 
             document
                 .getElementById("snippetInput")
@@ -596,29 +586,56 @@
             });
 
             document
-                .getElementById("registerBtn")
+                .getElementById("loginSubmit")
                 .addEventListener("click", () => {
-                    const username = prompt("Choose a username:");
-                    const password = prompt("Choose a password:");
-                    if (username && password) {
-                        fetch("/register", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ username, password }),
-                        })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                if (data.success) {
-                                    alert(
-                                        "Registration successful! You can now log in.",
-                                    );
-                                } else {
-                                    alert(
-                                        "Registration failed. Please try again.",
-                                    );
-                                }
-                            });
-                    }
+                    const username =
+                        document.getElementById("loginUsername").value;
+                    const password =
+                        document.getElementById("loginPassword").value;
+                    fetch("/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ username, password }),
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.success) {
+                                loggedInUser = data.username;
+                                updateLoginState();
+                                document.getElementById(
+                                    "loginModal",
+                                ).style.display = "none";
+                            } else {
+                                alert("Login failed. Please try again.");
+                            }
+                        });
+                });
+
+            document
+                .getElementById("registerSubmit")
+                .addEventListener("click", () => {
+                    const username =
+                        document.getElementById("registerUsername").value;
+                    const password =
+                        document.getElementById("registerPassword").value;
+                    fetch("/register", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ username, password }),
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.success) {
+                                alert(
+                                    "Registration successful! You can now log in.",
+                                );
+                                document.getElementById(
+                                    "registerModal",
+                                ).style.display = "none";
+                            } else {
+                                alert("Registration failed. Please try again.");
+                            }
+                        });
                 });
         </script>
     </body>
