@@ -223,25 +223,32 @@
                             class="h-8 mr-2"
                         />
                     </a>
+
                     <div class="flex items-flex-start">
                         <a
                             href="/tutorial"
                             class="btn text-bright-orange px-4 rounded-full hover:bg-opacity-80"
                             >tutorial</a
                         >
-                        <a
-                            href="#"
+                        <button
                             id="loginBtn"
                             class="btn bg-bright-orange text-black px-4 rounded-full hover:bg-opacity-80 justify-content-center"
-                            >login</a
                         >
+                            login
+                        </button>
                         <div class="mx-2"></div>
-                        <a
-                            href="#"
+                        <button
                             id="registerBtn"
                             class="btn bg-bright-orange text-black px-4 rounded-full hover:bg-opacity-80 vertical-align: middle"
-                            >reg</a
                         >
+                            reg
+                        </button>
+                        <button
+                            id="logoutBtn"
+                            class="btn bg-bright-orange text-black px-4 rounded-full hover:bg-opacity-80 ml-2 hidden"
+                        >
+                            logout
+                        </button>
                     </div>
                 </div>
             </div>
@@ -332,6 +339,47 @@
                         }
                     });
             }
+
+            function checkAuthStatus() {
+                fetch("/api/check-auth")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.loggedIn) {
+                            // User is logged in
+                            document.getElementById("loginBtn").style.display =
+                                "none";
+                            document.getElementById(
+                                "registerBtn",
+                            ).style.display = "none";
+                            document.getElementById("logoutBtn").style.display =
+                                "inline-block";
+                            document.getElementById(
+                                "userHeader",
+                            ).style.display = "block";
+                            document.getElementById(
+                                "userNickname",
+                            ).textContent = data.user.username;
+                        } else {
+                            // User is not logged in
+                            document.getElementById("loginBtn").style.display =
+                                "inline-block";
+                            document.getElementById(
+                                "registerBtn",
+                            ).style.display = "inline-block";
+                            document.getElementById("logoutBtn").style.display =
+                                "none";
+                            document.getElementById(
+                                "userHeader",
+                            ).style.display = "none";
+                        }
+                    })
+                    .catch((error) =>
+                        console.error("Error checking auth status:", error),
+                    );
+            }
+
+            // Call this function when the page loads
+            document.addEventListener("DOMContentLoaded", checkAuthStatus);
 
             function handleRouting() {
                 const path = window.location.pathname;
@@ -460,6 +508,33 @@
                         });
                     });
             }
+
+            function logout() {
+                fetch("/logout", { method: "POST" })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            // Redirect to home page or refresh the current page
+                            window.location.reload();
+                        } else {
+                            console.error("Logout failed");
+                        }
+                    })
+                    .catch((error) =>
+                        console.error("Error logging out:", error),
+                    );
+            }
+
+            // Call this function when the page loads
+            document.addEventListener("DOMContentLoaded", () => {
+                checkAuthStatus();
+
+                // Add event listener for logout button
+                const logoutBtn = document.getElementById("logoutBtn");
+                if (logoutBtn) {
+                    logoutBtn.addEventListener("click", logout);
+                }
+            });
 
             function updateLoginState() {
                 if (loggedInUser) {

@@ -81,11 +81,10 @@ app.post("/login", async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
     if (user && (await bcrypt.compare(password, user.password))) {
-      req.session.user = username;
-      console.log("User logged in, session set:", req.session);
-      res.json({ success: true, username: username });
+      req.session.user = { id: user._id, username: user.username };
+      await req.session.save();
+      res.json({ success: true, username: user.username });
     } else {
-      console.log("Invalid login attempt for user:", username);
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }
   } catch (error) {
@@ -94,9 +93,23 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get("/api/check-auth", (req, res) => {
+  if (req.session.user) {
+    res.json({ loggedIn: true, user: req.session.user });
+  } else {
+    res.json({ loggedIn: false });
+  }
+});
+
 app.post("/logout", (req, res) => {
-  req.session.destroy();
-  res.json({ success: true });
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      res.status(500).json({ success: false, message: "Error logging out" });
+    } else {
+      res.json({ success: true });
+    }
+  });
 });
 
 app.get("/snippets", async (req, res) => {
