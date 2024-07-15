@@ -36,16 +36,29 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(
   session({
-    secret: "your-secret-key",
+    secret: process.env.SESSION_SECRET || "your-secret-key",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+      ttl: 14 * 24 * 60 * 60, // = 14 days. Default
+      autoRemove: "native", // Default
+    }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-      secure: process.env.NODE_ENV === "production", // use secure cookies in production
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "lax",
     },
   }),
 );
+
+// Add this middleware to log session data
+app.use((req, res, next) => {
+  console.log("Session ID:", req.sessionID);
+  console.log("Session Data:", req.session);
+  next();
+});
 
 // Routes
 app.get("/", (req, res) => {
@@ -82,8 +95,16 @@ app.post("/login", async (req, res) => {
     const user = await User.findOne({ username });
     if (user && (await bcrypt.compare(password, user.password))) {
       req.session.user = { id: user._id, username: user.username };
-      await req.session.save();
-      res.json({ success: true, username: user.username });
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res
+            .status(500)
+            .json({ success: false, message: "Error saving session" });
+        }
+        console.log("Session after login:", req.session);
+        res.json({ success: true, username: user.username });
+      });
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }
@@ -94,6 +115,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/api/check-auth", (req, res) => {
+  console.log("Check-auth session:", req.session);
   if (req.session.user) {
     res.json({ loggedIn: true, user: req.session.user });
   } else {

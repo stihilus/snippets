@@ -344,6 +344,7 @@
                 fetch("/api/check-auth")
                     .then((response) => response.json())
                     .then((data) => {
+                        console.log("Auth status:", data);
                         if (data.loggedIn) {
                             // User is logged in
                             document.getElementById("loginBtn").style.display =
@@ -380,7 +381,8 @@
 
             // Call this function when the page loads
             document.addEventListener("DOMContentLoaded", checkAuthStatus);
-
+            // Also add this to check auth status after the page has fully loaded
+            window.addEventListener("load", checkAuthStatus);
             function handleRouting() {
                 const path = window.location.pathname;
                 if (path === "/") {
