@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snippets</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="assets/logo.svg" alt="Snippets Logo" class="logo">
+        </div>
+    </header>
+
+    <main>
+        <section id="auth-section">
+            <div id="login-section">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+                <h2>Register</h2>
+                <form id="register-form">
+                    <input type="email" id="register-email" placeholder="Email" required>
+                    <input type="password" id="register-password" placeholder="Password" required>
+                    <input type="text" id="register-username" placeholder="Username" required>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+            <div id="user-section" style="display: none;">
+                <p>Welcome, <span id="username"></span>!</p>
+                <button id="logout-button">Logout</button>
+            </div>
+        </section>
+
+        <section id="input-section" class="section">
+            <textarea id="code-input" placeholder="Enter your p5.js code here..."></textarea>
+            <div class="input-controls">
+                <div id="input-char-count" class="character-count"></div>
+                <button id="post-button" disabled>Post Snippet</button>
+            </div>
+        </section>
+
+        <section id="feed" class="section grid-container">
+            <!-- Snippets will be dynamically added here -->
+        </section>
+
+        <section id="pagination" class="section">
+            <!-- Pagination controls will be dynamically added here -->
+        </section>
+    </main>
+
+    <div id="preview-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <h2>Preview</h2>
+            <div id="modal-content"></div>
+            <button id="modal-post-button">Post Snippet</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <img src="assets/logo.svg" alt="Snippets Logo" class="logo">
+                <p>&copy; 2024 Snippets. All rights reserved.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://discord.gg/your-discord-link" target="_blank" rel="noopener noreferrer">Discord</a>
+                <a href="https://twitter.com/your-twitter-handle" target="_blank" rel="noopener noreferrer">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
