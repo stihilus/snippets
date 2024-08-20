@@ -316,3 +316,49 @@ footer {
 .footer-right a:hover {
     text-decoration: underline;
 }
+
+.snippet-username {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+#user-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#username-display {
+    color: #EB5A29;
+}
+
+#login-button, #register-button, #logout-button {
+    background-color: #EB5A29;
+    color: black;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 100px;
+    font-weight: bold;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal form input {
+    padding: 0.5rem;
+    font-family: 'Cascadia Mono', monospace;
+}
+
+.modal form button {
+    background-color: #EB5A29;
+    color: black;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 100px;
+    font-weight: bold;
+}

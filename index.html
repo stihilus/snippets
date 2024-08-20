@@ -3,65 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snippets</title>
+    <title>p5.js Snippets</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
 </head>
 <body>
     <header>
         <div class="header-content">
             <img src="assets/logo.svg" alt="Snippets Logo" class="logo">
+            <div id="user-status">
+                <span id="username-display"></span>
+                <button id="login-button">Login</button>
+                <button id="register-button">Register</button>
+                <button id="logout-button" style="display: none;">Logout</button>
+            </div>
         </div>
     </header>
-
     <main>
-        <section id="auth-section">
-            <div id="login-section">
-                <h2>Login</h2>
-                <form id="login-form">
-                    <input type="email" id="login-email" placeholder="Email" required>
-                    <input type="password" id="login-password" placeholder="Password" required>
-                    <button type="submit">Login</button>
-                </form>
-                <h2>Register</h2>
-                <form id="register-form">
-                    <input type="email" id="register-email" placeholder="Email" required>
-                    <input type="password" id="register-password" placeholder="Password" required>
-                    <input type="text" id="register-username" placeholder="Username" required>
-                    <button type="submit">Register</button>
-                </form>
-            </div>
-            <div id="user-section" style="display: none;">
-                <p>Welcome, <span id="username"></span>!</p>
-                <button id="logout-button">Logout</button>
-            </div>
-        </section>
-
-        <section id="input-section" class="section">
-            <textarea id="code-input" placeholder="Enter your p5.js code here..."></textarea>
+        <section id="input-section">
+            <textarea id="code-input" placeholder="Enter your p5.js code snippet here..."></textarea>
             <div class="input-controls">
                 <div id="input-char-count" class="character-count"></div>
-                <button id="post-button" disabled>Post Snippet</button>
+                <button id="post-button">Post Snippet</button>
             </div>
         </section>
-
-        <section id="feed" class="section grid-container">
+        <section id="feed" class="grid-container">
             <!-- Snippets will be dynamically added here -->
         </section>
-
-        <section id="pagination" class="section">
-            <!-- Pagination controls will be dynamically added here -->
-        </section>
+        <div id="pagination" class="section"></div>
     </main>
-
+    
+    <!-- Add this new modal structure -->
     <div id="preview-modal" class="modal">
         <div class="modal-content">
             <span id="close-modal" class="close">&times;</span>
             <h2>Preview</h2>
             <div id="modal-content"></div>
             <button id="modal-post-button">Post Snippet</button>
+        </div>
+    </div>
+
+    <!-- Add these new modal structures -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Username" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="register-form">
+                <input type="text" id="register-username" placeholder="Username" required>
+                <input type="password" id="register-password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
         </div>
     </div>
 
