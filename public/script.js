@@ -3,7 +3,7 @@ let snippets = JSON.parse(localStorage.getItem('snippets')) || [];
 let currentPage = 1;
 const snippetsPerPage = 3;
 
-let currentUser = null;
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
 // Function to create a snippet
 function createSnippet(code) {
@@ -328,6 +328,7 @@ function login(username, password) {
     .then(data => {
         if (data.success) {
             currentUser = { username: data.username };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
             updateUserStatus();
             closeModal('login-modal');
             fetchSnippets();
@@ -362,6 +363,7 @@ function register(username, password) {
 // Function to handle logout
 function logout() {
     currentUser = null;
+    localStorage.removeItem('currentUser');
     updateUserStatus();
     fetchSnippets();
 }
@@ -443,3 +445,9 @@ document.querySelectorAll('.close').forEach(closeBtn => {
 // Initial fetch of snippets and user status update
 fetchSnippets();
 updateUserStatus();
+
+// Check login status on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateUserStatus();
+    fetchSnippets();
+});

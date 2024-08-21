@@ -2,7 +2,7 @@ let snippets = [];
 let currentPage = 1;
 const snippetsPerPage = 3;
 
-let currentUser = null;
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
 // Function to update user status display
 function updateUserStatus() {
@@ -37,6 +37,7 @@ function login(username, password) {
     .then(data => {
         if (data.success) {
             currentUser = { username: data.username };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
             updateUserStatus();
             closeModal('login-modal');
         } else {
@@ -70,6 +71,7 @@ function register(username, password) {
 // Function to handle logout
 function logout() {
     currentUser = null;
+    localStorage.removeItem('currentUser');
     updateUserStatus();
 }
 
@@ -332,3 +334,9 @@ function getCharacterCountCategory(count) {
 
 // Initial fetch of snippets
 fetchUserSnippets();
+
+// Check login status on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateUserStatus();
+    fetchUserSnippets();
+});
