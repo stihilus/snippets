@@ -1,6 +1,10 @@
+:root {
+    --mainWidth: 50%; 
+  }
+
 body {
     font-family: 'Cascadia Mono', monospace;
-    background-color: #1a1a1a;
+    background-color: #000000;
     color: #ffffff;
     margin: 0;
     padding: 0;
@@ -13,11 +17,11 @@ header {
 }
 
 .header-content {
-    width: 30%;
+    width: var(--mainWidth);
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -32,7 +36,7 @@ h1 {
 }
 
 main {
-    width: 30%;
+    width: var(--mainWidth);
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
@@ -272,14 +276,16 @@ main {
 }
 
 footer {
-    background-color: #000000;
+    background-image: url('assets/background.png');
+    background-size: cover;
+    background-position: center;
     height: 300px;
     display: flex;
     align-items: flex-end;
 }
 
 .footer-content {
-    width: 30%;
+    width: var(--mainWidth);
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem 0;
