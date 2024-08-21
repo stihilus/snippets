@@ -30,6 +30,17 @@ header {
     width: auto;
 }
 
+a {
+    color: #EB5A29;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+a:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
 h1 {
     margin: 0;
     font-size: 1.5rem;
@@ -316,14 +327,14 @@ footer {
 
 .footer-right a {
     color: #ffffff;
-    text-decoration: none;
 }
 
 .footer-right a:hover {
-    text-decoration: underline;
+    color: #EB5A29;
 }
 
 .snippet-username {
+    color: #EB5A29;
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
@@ -367,4 +378,12 @@ footer {
     cursor: pointer;
     border-radius: 100px;
     font-weight: bold;
+}
+
+.user-feed-title {
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: normal;
 }

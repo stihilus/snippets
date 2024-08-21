@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const app = express();
 const port = process.env.PORT || 3000;
+const path = require('path');
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -85,6 +86,34 @@ app.get('/api/snippets', async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error' });
     }
+});
+
+// Get snippets for a specific user
+app.get('/api/snippets/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const snippets = await Snippet.find({ username }).sort({ id: -1 });
+        res.json(snippets);
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// Serve user pages
+app.get('/user/:username', (req, res) => {
+    console.log(`Serving user page for: ${req.params.username}`);
+    res.sendFile(path.join(__dirname, 'public', 'user.html'));
+});
+
+// Add this before the last app.get('*', ...) route
+app.use((req, res, next) => {
+    console.log(`Received request for: ${req.url}`);
+    next();
+});
+
+// This should be the last route
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(port, () => {
