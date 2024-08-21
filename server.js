@@ -30,7 +30,9 @@ const User = mongoose.model('User', {
 const Snippet = mongoose.model('Snippet', {
     id: Number,
     code: String,
-    username: String
+    username: String,
+    likes: { type: Number, default: 0 },
+    likedBy: [String]
 });
 
 // Register route
@@ -95,6 +97,48 @@ app.get('/api/snippets/:username', async (req, res) => {
         const username = req.params.username;
         const snippets = await Snippet.find({ username }).sort({ id: -1 });
         res.json(snippets);
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// Like snippet route
+app.post('/api/snippets/:id/like', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { username } = req.body;
+        const snippet = await Snippet.findOne({ id: parseInt(id) });
+        if (!snippet) {
+            return res.status(404).json({ success: false, message: 'Snippet not found' });
+        }
+        if (snippet.likedBy.includes(username)) {
+            return res.status(400).json({ success: false, message: 'User already liked this snippet' });
+        }
+        snippet.likes += 1;
+        snippet.likedBy.push(username);
+        await snippet.save();
+        res.json({ success: true, likes: snippet.likes });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// Unlike snippet route
+app.post('/api/snippets/:id/unlike', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { username } = req.body;
+        const snippet = await Snippet.findOne({ id: parseInt(id) });
+        if (!snippet) {
+            return res.status(404).json({ success: false, message: 'Snippet not found' });
+        }
+        if (!snippet.likedBy.includes(username)) {
+            return res.status(400).json({ success: false, message: 'User has not liked this snippet' });
+        }
+        snippet.likes -= 1;
+        snippet.likedBy = snippet.likedBy.filter(user => user !== username);
+        await snippet.save();
+        res.json({ success: true, likes: snippet.likes });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error' });
     }

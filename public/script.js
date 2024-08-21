@@ -92,6 +92,14 @@ function renderSnippets() {
         refreshButton.addEventListener('click', () => refreshCanvas(snippet.id, snippet.code));
         buttonContainer.appendChild(refreshButton);
 
+        // Add like button
+        const likeButton = document.createElement('button');
+        likeButton.className = 'like-button';
+        likeButton.classList.toggle('liked', snippet.likedBy.includes(currentUser?.username));
+        updateLikeButton(likeButton, snippet.likes);
+        likeButton.addEventListener('click', () => handleLike(snippet.id, likeButton));
+        buttonContainer.appendChild(likeButton);
+
         snippetControls.appendChild(buttonContainer);
 
         gridItem.appendChild(snippetControls);
@@ -393,7 +401,11 @@ function fetchSnippets() {
     fetch('/api/snippets')
     .then(response => response.json())
     .then(data => {
-        snippets = data;
+        snippets = data.map(snippet => ({
+            ...snippet,
+            likes: snippet.likes || 0,
+            likedBy: snippet.likedBy || []
+        }));
         renderSnippets();
     })
     .catch(error => console.error('Error:', error));
@@ -452,3 +464,38 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUserStatus();
     fetchSnippets();
 });
+
+// Add this function to handle likes
+function handleLike(snippetId, likeButton) {
+    if (!currentUser) {
+        alert('Please login to like snippets.');
+        return;
+    }
+
+    const isLiked = likeButton.classList.contains('liked');
+    const endpoint = isLiked ? `/api/snippets/${snippetId}/unlike` : `/api/snippets/${snippetId}/like`;
+
+    fetch(endpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: currentUser.username }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            likeButton.classList.toggle('liked');
+            updateLikeButton(likeButton, data.likes);
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Add this function to update the like button appearance
+function updateLikeButton(button, likes) {
+    const iconSrc = button.classList.contains('liked') ? '/assets/fullHeart.svg' : '/assets/emptyHeart.svg';
+    button.innerHTML = likes > 0 ? `${likes} <img src="${iconSrc}" alt="Like">` : `<img src="${iconSrc}" alt="Like">`;
+}
