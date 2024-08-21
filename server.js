@@ -22,6 +22,7 @@ db.once('open', function() {
 // Define User model
 const User = mongoose.model('User', {
     username: String,
+    email: String,
     password: String
 });
 
@@ -35,13 +36,13 @@ const Snippet = mongoose.model('Snippet', {
 // Register route
 app.post('/api/register', async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const existingUser = await User.findOne({ username });
+        const { username, email, password } = req.body;
+        const existingUser = await User.findOne({ $or: [{ username }, { email }] });
         if (existingUser) {
-            return res.json({ success: false, message: 'Username already exists' });
+            return res.json({ success: false, message: 'Username or email already exists' });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ username, password: hashedPassword });
+        const newUser = new User({ username, email, password: hashedPassword });
         await newUser.save();
         res.json({ success: true });
     } catch (error) {

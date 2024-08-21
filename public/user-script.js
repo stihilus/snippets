@@ -40,6 +40,7 @@ function login(username, password) {
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             updateUserStatus();
             closeModal('login-modal');
+            fetchSnippets();
         } else {
             alert('Login failed. Please check your credentials.');
         }
@@ -48,13 +49,13 @@ function login(username, password) {
 }
 
 // Function to handle registration
-function register(username, password) {
+function register(username, email, password) {
     fetch('/api/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, email, password }),
     })
     .then(response => response.json())
     .then(data => {
@@ -62,7 +63,7 @@ function register(username, password) {
             alert('Registration successful. Please login.');
             closeModal('register-modal');
         } else {
-            alert('Registration failed. Username may already exist.');
+            alert('Registration failed. Username or email may already exist.');
         }
     })
     .catch(error => console.error('Error:', error));
@@ -73,6 +74,7 @@ function logout() {
     currentUser = null;
     localStorage.removeItem('currentUser');
     updateUserStatus();
+    fetchSnippets();
 }
 
 // Function to open a modal
@@ -101,8 +103,9 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
 document.getElementById('register-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById('register-username').value;
+    const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
-    register(username, password);
+    register(username, email, password);
 });
 
 // Close modal when clicking on the close button or outside the modal
