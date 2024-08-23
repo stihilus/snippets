@@ -59,6 +59,7 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
+    box-sizing: border-box; /* Add this line */
 }
 
 #input-section {
@@ -123,9 +124,10 @@ main {
     border-radius: 4px;
     display: flex;
     flex-direction: column;
-    width: 100%; /* Set width to 100% */
-    max-width: 600px; /* Add a max-width for larger screens */
-    margin: 0 auto; /* Center the grid item */
+    width: 100%;
+    max-width: none; /* Remove the max-width */
+    margin: 0 auto;
+    box-sizing: border-box; /* Add this line */
 }
 
 .canvas-container {
@@ -590,5 +592,22 @@ nav a:hover {
 
     .footer-right {
         margin-top: 1rem;
+    }
+}
+
+/* Update the media query */
+@media (max-width: 1200px) {
+    :root {
+        --mainWidth: 90%;
+    }
+
+    .header-content,
+    main,
+    .footer-content {
+        width: var(--mainWidth);
+    }
+
+    .grid-item {
+        width: 100%;
     }
 }
