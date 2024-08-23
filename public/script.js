@@ -162,10 +162,11 @@ function renderPagination() {
     });
 }
 
-// Function to create a p5.js sketch from user code
 function createSketch(userCode) {
     return function(p) {
         let canvas;
+        let isVisible = true;
+        let observer;
 
         // Compile user code
         let userSetup, userDraw;
@@ -185,31 +186,44 @@ function createSketch(userCode) {
 
         // Setup function
         p.setup = function() {
-            // Create a canvas that fits the container
             const container = p.select('.canvas-container').elt;
             const canvasWidth = container.offsetWidth;
             const canvasHeight = container.offsetHeight;
             canvas = p.createCanvas(canvasWidth, canvasHeight);
 
-            // Scale the canvas to fit container dimensions
             p.windowWidth = canvasWidth;
             p.windowHeight = canvasHeight;
 
-            // Call user's setup function if it exists
             if (typeof userSetup === 'function') {
                 userSetup.call(p);
             }
 
-            // Ensure the canvas fits within the container
             canvas.style('width', '100%');
             canvas.style('height', '100%');
+
+            // Set up Intersection Observer
+            observer = new IntersectionObserver((entries) => {
+                isVisible = entries[0].isIntersecting;
+                if (isVisible) {
+                    p.redraw();
+                }
+            }, { threshold: 0.1 });
+            observer.observe(container);
         };
 
         // Draw function
         p.draw = function() {
+            if (!isVisible) return;
+
             try {
                 if (typeof userDraw === 'function') {
                     userDraw.call(p);
+                } else if (typeof userSetup === 'function') {
+                    // If no draw function is provided, call setup once to redraw
+                    p.push();
+                    userSetup.call(p);
+                    p.pop();
+                    p.noLoop();
                 }
             } catch (error) {
                 console.error('Error in draw function:', error);
