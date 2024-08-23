@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!--  Essential META Tags -->
     <meta property="og:title" content="snippets" />
@@ -26,9 +27,12 @@
 <body>
     <header>
         <div class="header-content">
+            <div class="header-left">
             <a href="/">
                 <img src="assets/logo.svg" alt="Snippets Logo" class="logo">
             </a>
+            <a href="/about.html">About</a>
+            </div>
             <div id="user-status">
                 <span id="username-display"></span>
                 <button id="login-button">Login</button>
@@ -51,11 +55,12 @@
         <div id="pagination" class="section"></div>
     </main>
     
-    <!-- Add this new modal structure -->
+    <!-- Update the preview modal structure -->
     <div id="preview-modal" class="modal">
         <div class="modal-content">
             <span id="close-modal" class="close">&times;</span>
             <h2>Preview</h2>
+            <input type="text" id="snippet-title-input" placeholder="Enter snippet title">
             <div id="modal-content"></div>
             <button id="modal-post-button">Post Snippet</button>
         </div>

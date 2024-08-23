@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Snippets</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/">
+                <img src="assets/logo.svg" alt="Snippets Logo" class="logo">
+            </a>
+        </div>
+    </header>
+    <main>
+        <section id="about-content">
+            <h1>About Snippets</h1>
+            <p>Welcome to Snippets, a platform for sharing and exploring creative code snippets using p5.js!</p>
+            
+            <h2>What is p5.js?</h2>
+            <p>p5.js is a JavaScript library that starts with the original goals of Processing — to make coding accessible for artists, designers, educators, and beginners — and reinterprets this for today's web. Learn more at <a href="https://p5js.org/" target="_blank">p5js.org</a>.</p>
+            
+            <h2>How to Create a Snippet</h2>
+            <p>Each snippet needs to have two main functions:</p>
+            <ul>
+                <li><code>setup()</code>: This function runs once when the program starts.</li>
+                <li><code>draw()</code>: This function runs continuously after setup(), creating animation.</li>
+            </ul>
+            <p>To ensure your snippet works well on our platform, please use a dynamic canvas size:</p>
+            <pre><code>function setup() {
+  createCanvas(windowWidth, windowHeight);
+  // Your setup code here
+}
+
+function draw() {
+  // Your drawing code here
+}</code></pre>
+            
+            <h2>Example Snippet</h2>
+            <p>Here's a simple example to get you started:</p>
+            <pre><code>function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(220);
+}
+
+function draw() {
+  if (mouseIsPressed) {
+    fill(0);
+  } else {
+    fill(255);
+  }
+  ellipse(mouseX, mouseY, 80, 80);
+}</code></pre>
+            <p>This snippet does the following:</p>
+            <ol>
+                <li>Creates a canvas that fills the window</li>
+                <li>Sets a light gray background</li>
+                <li>Draws a circle at the mouse position</li>
+                <li>The circle is black when the mouse is pressed, white when it's not</li>
+            </ol>
+            
+            <h2>Learn More</h2>
+            <p>Ready to dive deeper? Check out the <a href="https://p5js.org/tutorials/" target="_blank">p5.js tutorials</a> for more in-depth guides and examples.</p>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <a href="/">
+                    <img src="/assets/logo.svg" alt="Snippets Logo" class="logo">
+                </a>
+                <p>&copy; 2024 Snippets. All rights reserved.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://discord.gg/your-discord-link" target="_blank" rel="noopener noreferrer">Discord</a>
+                <a href="https://twitter.com/your-twitter-handle" target="_blank" rel="noopener noreferrer">Twitter</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -163,6 +163,13 @@ function renderSnippets() {
         gridItem.className = 'grid-item';
         gridItem.id = `snippet-${snippet.id}`;
 
+        // Add username and title at the top
+        const usernameElement = document.createElement('a');
+        usernameElement.className = 'snippet-username';
+        usernameElement.textContent = `${snippet.username} - ${snippet.title}`;
+        usernameElement.href = `/user/${snippet.username}`;
+        gridItem.appendChild(usernameElement);
+
         const canvasContainer = document.createElement('div');
         canvasContainer.className = 'canvas-container';
         canvasContainer.id = `canvas-${snippet.id}`;

@@ -31,6 +31,7 @@ const Snippet = mongoose.model('Snippet', {
     id: Number,
     code: String,
     username: String,
+    title: String, // Added this line
     likes: { type: Number, default: 0 },
     likedBy: [String]
 });
@@ -73,7 +74,10 @@ app.post('/api/login', async (req, res) => {
 // Create snippet route
 app.post('/api/snippets', async (req, res) => {
     try {
-        const newSnippet = new Snippet(req.body);
+        const newSnippet = new Snippet({
+            ...req.body,
+            title: req.body.title || 'Untitled' // Added this line
+        });
         await newSnippet.save();
         res.json(newSnippet);
     } catch (error) {

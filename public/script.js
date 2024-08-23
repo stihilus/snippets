@@ -6,7 +6,7 @@ const snippetsPerPage = 3;
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
 // Function to create a snippet
-function createSnippet(code) {
+function createSnippet(code, title) {
     if (!currentUser) {
         alert('Please login to post snippets.');
         return;
@@ -15,7 +15,8 @@ function createSnippet(code) {
     const snippet = {
         id: Date.now(),
         code: code,
-        username: currentUser.username
+        username: currentUser.username,
+        title: title || 'Untitled'
     };
 
     fetch('/api/snippets', {
@@ -50,7 +51,7 @@ function renderSnippets() {
 
         const usernameElement = document.createElement('a');
         usernameElement.className = 'snippet-username';
-        usernameElement.textContent = snippet.username;
+        usernameElement.textContent = `${snippet.username} - ${snippet.title}`;
         usernameElement.href = `/user/${snippet.username}`;
         gridItem.appendChild(usernameElement);
 
@@ -270,8 +271,9 @@ document.getElementById('close-modal').addEventListener('click', () => {
 // Event listener for modal post button
 document.getElementById('modal-post-button').addEventListener('click', () => {
     const codeInput = document.getElementById('code-input');
+    const titleInput = document.getElementById('snippet-title-input');
     if (codeInput.value.trim() !== '') {
-        createSnippet(codeInput.value);
+        createSnippet(codeInput.value, titleInput.value);
         codeInput.value = '';
         document.getElementById('preview-modal').style.display = 'none';
     }
