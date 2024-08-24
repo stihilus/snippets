@@ -536,7 +536,17 @@ function updateLikeButton(button, likes) {
 
 // Add this function to save the canvas as an image and upload it
 function saveCanvasAndUpload(snippetId, code, title, canvas) {
-    canvas.toBlob(function(blob) {
+    // Create a temporary canvas for the preview
+    const previewCanvas = document.createElement('canvas');
+    previewCanvas.width = 800;
+    previewCanvas.height = 800;
+    const ctx = previewCanvas.getContext('2d');
+    
+    // Draw the original canvas onto the preview canvas
+    ctx.drawImage(canvas, 0, 0, 800, 800);
+
+    // Convert the preview canvas to a blob
+    previewCanvas.toBlob(function(blob) {
         const formData = new FormData();
         formData.append('image', blob, 'snippet.jpg');
         formData.append('snippet', JSON.stringify({
