@@ -174,8 +174,7 @@ function renderPagination() {
 function createSketch(userCode) {
     return function(p) {
         let canvas;
-        let isVisible = true;
-        let observer;
+        let isPageVisible = true;
 
         // Compile user code
         let userSetup, userDraw;
@@ -195,28 +194,32 @@ function createSketch(userCode) {
 
         // Setup function
         p.setup = function() {
+            // Create a canvas that fits the container
             const container = p.select('.canvas-container').elt;
             const canvasWidth = container.offsetWidth;
             const canvasHeight = container.offsetHeight;
             canvas = p.createCanvas(canvasWidth, canvasHeight);
 
+            // Scale the canvas to fit container dimensions
+            p.windowWidth = canvasWidth;
+            p.windowHeight = canvasHeight;
+
+            // Call user's setup function if it exists
             if (typeof userSetup === 'function') {
                 userSetup.call(p);
             }
 
-            // Set up Intersection Observer
-            observer = new IntersectionObserver((entries) => {
-                isVisible = entries[0].isIntersecting;
-                if (isVisible) {
-                    p.redraw();
-                }
-            }, { threshold: 0.1 });
-            observer.observe(container);
+            // Ensure the canvas fits within the container
+            canvas.style('width', '100%');
+            canvas.style('height', '100%');
+
+            // Set up visibility change listener
+            document.addEventListener("visibilitychange", handleVisibilityChange);
         };
 
         // Draw function
         p.draw = function() {
-            if (!isVisible) return;
+            if (!isPageVisible) return;
 
             try {
                 if (typeof userDraw === 'function') {
@@ -234,6 +237,7 @@ function createSketch(userCode) {
                 p.fill(255);
                 p.textAlign(p.CENTER, p.CENTER);
                 p.text('Error in sketch', p.width/2, p.height/2);
+                p.noLoop();
             }
         };
 
@@ -243,7 +247,20 @@ function createSketch(userCode) {
             const canvasWidth = container.offsetWidth;
             const canvasHeight = container.offsetHeight;
             p.resizeCanvas(canvasWidth, canvasHeight);
+            p.windowWidth = canvasWidth;
+            p.windowHeight = canvasHeight;
         };
+
+        // Handle visibility change
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                isPageVisible = false;
+                p.noLoop();
+            } else {
+                isPageVisible = true;
+                p.loop();
+            }
+        }
     };
 }
 
