@@ -12,27 +12,27 @@ function createSnippet(code, title) {
         return;
     }
 
-    const snippet = {
-        id: Date.now(),
-        code: code,
-        username: currentUser.username,
-        title: title || 'Untitled'
-    };
+    const snippetId = Date.now();
+    const tempContainer = document.createElement('div');
+    tempContainer.style.width = '800px';
+    tempContainer.style.height = '800px';
+    tempContainer.style.position = 'absolute';
+    tempContainer.style.left = '-9999px';
+    document.body.appendChild(tempContainer);
 
-    fetch('/api/snippets', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(snippet),
-    })
-    .then(response => response.json())
-    .then(data => {
-        snippets.unshift(data);
-        currentPage = 1;
-        renderSnippets();
-    })
-    .catch(error => console.error('Error:', error));
+    const tempSketch = new p5(createSketch(code), tempContainer);
+
+    // Wait for the sketch to render
+    setTimeout(() => {
+        const canvas = tempContainer.querySelector('canvas');
+        if (canvas) {
+            saveCanvasAndUpload(snippetId, code, title, canvas);
+        } else {
+            console.error('Canvas not found');
+        }
+        tempSketch.remove();
+        document.body.removeChild(tempContainer);
+    }, 100);
 }
 
 // Function to render snippets
@@ -58,6 +58,15 @@ function renderSnippets() {
         const canvasContainer = document.createElement('div');
         canvasContainer.className = 'canvas-container';
         canvasContainer.id = `canvas-${snippet.id}`;
+
+        if (snippet.imagePath) {
+            const img = document.createElement('img');
+            img.src = snippet.imagePath;
+            img.alt = snippet.title;
+            img.className = 'snippet-image';
+            canvasContainer.appendChild(img);
+        }
+
         gridItem.appendChild(canvasContainer);
 
         const codeElement = document.createElement('pre');
@@ -90,7 +99,7 @@ function renderSnippets() {
         const refreshButton = document.createElement('button');
         refreshButton.className = 'refresh-button';
         refreshButton.textContent = 'Refresh';
-        refreshButton.addEventListener('click', () => refreshCanvas(snippet.id, snippet.code));
+        refreshButton.addEventListener('click', () => refreshCanvas(snippet.id, snippet.code, canvasContainer));
         buttonContainer.appendChild(refreshButton);
 
         // Add like button
@@ -107,8 +116,10 @@ function renderSnippets() {
 
         feed.appendChild(gridItem);
 
-        // Create p5 instance for this snippet
-        new p5(createSketch(snippet.code), `canvas-${snippet.id}`);
+        // Add click event to the image to show the canvas
+        if (snippet.imagePath) {
+            canvasContainer.addEventListener('click', () => showCanvas(snippet.id, snippet.code, canvasContainer));
+        }
     });
 
     renderPagination();
@@ -131,10 +142,8 @@ function copyCode(code, button) {
 }
 
 // Function to refresh a specific canvas
-function refreshCanvas(snippetId, code) {
-    const canvasContainer = document.getElementById(`canvas-${snippetId}`);
-    canvasContainer.innerHTML = ''; // Clear the existing canvas
-    new p5(createSketch(code), `canvas-${snippetId}`);
+function refreshCanvas(snippetId, code, container) {
+    showCanvas(snippetId, code, container);
 }
 
 // Function to render pagination controls
@@ -191,15 +200,9 @@ function createSketch(userCode) {
             const canvasHeight = container.offsetHeight;
             canvas = p.createCanvas(canvasWidth, canvasHeight);
 
-            p.windowWidth = canvasWidth;
-            p.windowHeight = canvasHeight;
-
             if (typeof userSetup === 'function') {
                 userSetup.call(p);
             }
-
-            canvas.style('width', '100%');
-            canvas.style('height', '100%');
 
             // Set up Intersection Observer
             observer = new IntersectionObserver((entries) => {
@@ -240,8 +243,6 @@ function createSketch(userCode) {
             const canvasWidth = container.offsetWidth;
             const canvasHeight = container.offsetHeight;
             p.resizeCanvas(canvasWidth, canvasHeight);
-            p.windowWidth = canvasWidth;
-            p.windowHeight = canvasHeight;
         };
     };
 }
@@ -514,4 +515,36 @@ function handleLike(snippetId, likeButton) {
 function updateLikeButton(button, likes) {
     const iconSrc = button.classList.contains('liked') ? '/assets/fullHeart.svg' : '/assets/emptyHeart.svg';
     button.innerHTML = likes > 0 ? `${likes} <img src="${iconSrc}" alt="Like">` : `<img src="${iconSrc}" alt="Like">`;
+}
+
+// Add this function to save the canvas as an image and upload it
+function saveCanvasAndUpload(snippetId, code, title, canvas) {
+    canvas.toBlob(function(blob) {
+        const formData = new FormData();
+        formData.append('image', blob, 'snippet.jpg');
+        formData.append('snippet', JSON.stringify({
+            id: snippetId,
+            code: code,
+            username: currentUser.username,
+            title: title
+        }));
+
+        fetch('/api/snippets', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            snippets.unshift(data);
+            currentPage = 1;
+            renderSnippets();
+        })
+        .catch(error => console.error('Error:', error));
+    }, 'image/jpeg', 0.95);
+}
+
+// Add this function to show the canvas
+function showCanvas(snippetId, code, container) {
+    container.innerHTML = '';
+    new p5(createSketch(code), container);
 }

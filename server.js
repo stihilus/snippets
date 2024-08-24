@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt');
 const app = express();
 const port = process.env.PORT || 3000;
 const path = require('path');
+const multer = require('multer');
+const fs = require('fs');
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -31,10 +33,23 @@ const Snippet = mongoose.model('Snippet', {
     id: Number,
     code: String,
     username: String,
-    title: String, // Added this line
+    title: String,
     likes: { type: Number, default: 0 },
-    likedBy: [String]
+    likedBy: [String],
+    imagePath: String
 });
+
+// Set up multer for handling file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // Register route
 app.post('/api/register', async (req, res) => {
@@ -72,11 +87,12 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Create snippet route
-app.post('/api/snippets', async (req, res) => {
+app.post('/api/snippets', upload.single('image'), async (req, res) => {
     try {
         const newSnippet = new Snippet({
-            ...req.body,
-            title: req.body.title || 'Untitled' // Added this line
+            ...JSON.parse(req.body.snippet),
+            title: JSON.parse(req.body.snippet).title || 'Untitled',
+            imagePath: req.file ? `/uploads/${req.file.filename}` : null
         });
         await newSnippet.save();
         res.json(newSnippet);
@@ -164,6 +180,9 @@ app.use((req, res, next) => {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// Add a route to serve the uploaded images
+app.use('/uploads', express.static('public/uploads'));
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

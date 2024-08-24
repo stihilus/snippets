@@ -5,6 +5,8 @@
 # === Rule for dotfiles ===
 # Ignore all dotfiles.
 .*
+# ignore all files from upload folder
+upload/*
 # Exclude specific dotfiles that we want to track.
 !deps/**/.*
 !.devcontainer/
