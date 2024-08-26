@@ -1,7 +1,7 @@
 // Array to store snippets
 let snippets = JSON.parse(localStorage.getItem('snippets')) || [];
 let currentPage = 1;
-const snippetsPerPage = 3;
+const snippetsPerPage = 10;
 
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
