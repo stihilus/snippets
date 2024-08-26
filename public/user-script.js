@@ -175,6 +175,16 @@ function renderSnippets() {
         canvasContainer.id = `canvas-${snippet.id}`;
         gridItem.appendChild(canvasContainer);
 
+        // Display image instead of canvas initially
+        if (snippet.imagePath) {
+            const img = document.createElement('img');
+            img.src = snippet.imagePath;
+            img.alt = snippet.title;
+            img.className = 'snippet-image';
+            img.addEventListener('click', () => showCanvas(snippet.id, snippet.code, canvasContainer));
+            canvasContainer.appendChild(img);
+        }
+
         const codeElement = document.createElement('pre');
         codeElement.textContent = snippet.code;
         gridItem.appendChild(codeElement);
@@ -221,12 +231,15 @@ function renderSnippets() {
         gridItem.appendChild(snippetControls);
 
         feed.appendChild(gridItem);
-
-        // Create p5 instance for this snippet
-        new p5(createSketch(snippet.code), `canvas-${snippet.id}`);
     });
 
     renderPagination();
+}
+
+// Function to show the canvas
+function showCanvas(snippetId, code, container) {
+    container.innerHTML = ''; // Clear the container
+    new p5(createSketch(code), container); // Load the canvas
 }
 
 // Function to create a p5.js sketch from user code
