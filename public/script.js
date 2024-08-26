@@ -98,7 +98,7 @@ function renderSnippets() {
         // Add refresh button
         const refreshButton = document.createElement('button');
         refreshButton.className = 'refresh-button';
-        refreshButton.textContent = 'Refresh';
+        refreshButton.textContent = 'Run';
         refreshButton.addEventListener('click', () => refreshCanvas(snippet.id, snippet.code, canvasContainer));
         buttonContainer.appendChild(refreshButton);
 
