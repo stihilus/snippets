@@ -620,3 +620,18 @@ nav a:hover {
         width: 100%;
     }
 }
+
+.delete-button {
+    background-color: #444444;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+}
+
+.delete-button:hover {
+    background-color: #555555;
+}

@@ -88,6 +88,15 @@ function renderSnippets() {
         const buttonContainer = document.createElement('div');
         buttonContainer.className = 'button-container';
 
+        // Add delete button
+        if (currentUser && currentUser.username === snippet.username) {
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', () => handleDelete(snippet.id, gridItem));
+            buttonContainer.appendChild(deleteButton);
+        }
+
         // Add copy button
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
@@ -574,4 +583,34 @@ function saveCanvasAndUpload(snippetId, code, title, canvas) {
 function showCanvas(snippetId, code, container) {
     container.innerHTML = '';
     new p5(createSketch(code), container);
+}
+
+// Function to handle delete
+function handleDelete(snippetId, gridItem) {
+    if (!currentUser) {
+        alert('Please login to delete snippets.');
+        return;
+    }
+
+    // Confirm deletion
+    if (confirm('Are you sure you want to delete this snippet?')) {
+        fetch(`/api/snippets/${snippetId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: currentUser.username }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the snippet from the UI
+                gridItem.remove();
+                alert('Snippet deleted successfully.');
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 }

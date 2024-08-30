@@ -147,13 +147,6 @@ function renderSnippets() {
     const feed = document.getElementById('feed');
     feed.innerHTML = '';
     
-    // Add title at the top of the feed
-    const username = getUsernameFromURL();
-    const titleElement = document.createElement('h2');
-    titleElement.textContent = `Snippets by ${username}`;
-    titleElement.className = 'user-feed-title';
-    feed.appendChild(titleElement);
-    
     const startIndex = (currentPage - 1) * snippetsPerPage;
     const endIndex = startIndex + snippetsPerPage;
     const snippetsToRender = snippets.slice(startIndex, endIndex);
@@ -204,6 +197,15 @@ function renderSnippets() {
         const buttonContainer = document.createElement('div');
         buttonContainer.className = 'button-container';
 
+        // Add delete button only for the owner
+        if (currentUser && currentUser.username === snippet.username) {
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', () => handleDelete(snippet.id, gridItem));
+            buttonContainer.appendChild(deleteButton);
+        }
+
         // Add copy button
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
@@ -227,9 +229,7 @@ function renderSnippets() {
         buttonContainer.appendChild(likeButton);
 
         snippetControls.appendChild(buttonContainer);
-
         gridItem.appendChild(snippetControls);
-
         feed.appendChild(gridItem);
     });
 
@@ -396,6 +396,36 @@ function handleLike(snippetId, likeButton) {
 function updateLikeButton(button, likes) {
     const iconSrc = button.classList.contains('liked') ? '/assets/fullHeart.svg' : '/assets/emptyHeart.svg';
     button.innerHTML = likes > 0 ? `${likes} <img src="${iconSrc}" alt="Like">` : `<img src="${iconSrc}" alt="Like">`;
+}
+
+// Function to handle delete
+function handleDelete(snippetId, gridItem) {
+    if (!currentUser) {
+        alert('Please login to delete snippets.');
+        return;
+    }
+
+    // Confirm deletion
+    if (confirm('Are you sure you want to delete this snippet?')) {
+        fetch(`/api/snippets/${snippetId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: currentUser.username }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the snippet from the UI
+                gridItem.remove();
+                alert('Snippet deleted successfully.');
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 }
 
 // Initial fetch of snippets

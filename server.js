@@ -164,6 +164,29 @@ app.post('/api/snippets/:id/unlike', async (req, res) => {
     }
 });
 
+// Delete snippet route
+app.delete('/api/snippets/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { username } = req.body;
+
+        const snippet = await Snippet.findOne({ id: parseInt(id) });
+        if (!snippet) {
+            return res.status(404).json({ success: false, message: 'Snippet not found' });
+        }
+
+        // Check if the user is the owner of the snippet
+        if (snippet.username !== username) {
+            return res.status(403).json({ success: false, message: 'You are not authorized to delete this snippet' });
+        }
+
+        await Snippet.deleteOne({ id: parseInt(id) });
+        res.json({ success: true, message: 'Snippet deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 // Serve user pages
 app.get('/user/:username', (req, res) => {
     console.log(`Serving user page for: ${req.params.username}`);
