@@ -320,6 +320,15 @@ document.getElementById('modal-post-button').addEventListener('click', () => {
     }
 });
 
+// Event listener for modal refresh button
+document.getElementById('modal-refresh-button').addEventListener('click', () => {
+    const codeInput = document.getElementById('code-input');
+    const modalContent = document.getElementById('modal-content');
+    if (codeInput.value.trim() !== '') {
+        showCanvas(Date.now(), codeInput.value, modalContent); // Use a unique ID for the canvas
+    }
+});
+
 // Initial render
 renderSnippets();
 

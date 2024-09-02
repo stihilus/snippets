@@ -635,3 +635,19 @@ nav a:hover {
 .delete-button:hover {
     background-color: #555555;
 }
+
+/* Gray button style similar to post button */
+.gray-button {
+    background-color: #444444;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+}
+
+.gray-button:hover {
+    background-color: darkgray; /* Darker gray on hover */
+}
