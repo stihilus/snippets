@@ -55,6 +55,11 @@ function renderSnippets() {
         usernameElement.href = `/user/${snippet.username}`;
         gridItem.appendChild(usernameElement);
 
+        const snippetLink = document.createElement('a');
+        snippetLink.href = `/snippet/${snippet.id}`;
+        snippetLink.textContent = 'View Snippet';
+        gridItem.appendChild(snippetLink);
+
         const canvasContainer = document.createElement('div');
         canvasContainer.className = 'canvas-container';
         canvasContainer.id = `canvas-${snippet.id}`;

@@ -199,6 +199,47 @@ app.use((req, res, next) => {
     next();
 });
 
+// Add this new route before the catch-all route
+app.get('/api/snippet/:id', async (req, res) => {
+    try {
+        const snippetId = parseInt(req.params.id);
+        const snippet = await Snippet.findOne({ id: snippetId });
+        if (!snippet) {
+            return res.status(404).json({ success: false, message: 'Snippet not found' });
+        }
+        res.json(snippet);
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// Update this route to serve the snippet.html page with dynamic og:image
+app.get('/snippet/:id', async (req, res) => {
+    try {
+        const snippetId = parseInt(req.params.id);
+        const snippet = await Snippet.findOne({ id: snippetId });
+        if (!snippet) {
+            return res.status(404).send('Snippet not found');
+        }
+
+        // Read the snippet.html file
+        let html = fs.readFileSync(path.join(__dirname, 'public', 'snippet.html'), 'utf8');
+
+        // Replace the og:image placeholder with the actual image path
+        const ogImageUrl = snippet.imagePath ? `https://snippets-unty.onrender.com${snippet.imagePath}` : 'https://i.ibb.co/ypb1j7z/og-image.jpg';
+        html = html.replace('{{OG_IMAGE_URL}}', ogImageUrl);
+
+        // Replace other placeholders if needed
+        html = html.replace('{{SNIPPET_TITLE}}', snippet.title || 'Untitled Snippet');
+        html = html.replace('{{SNIPPET_DESCRIPTION}}', `View and interact with ${snippet.username}'s creative code snippet on openSnippets.`);
+
+        res.send(html);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Server error');
+    }
+});
+
 // This should be the last route
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
