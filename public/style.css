@@ -1,11 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+@font-face {
+    font-family: 'Departure';
+    src: url('assets/Departure.otf') format('opentype');
+}
 
 :root {
     --mainWidth: 50%; 
   }
 
 body {
-    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+    font-family: 'Departure', 'Cascadia Mono', monospace;
     background-color: #000000;
     color: #ffffff;
     margin: 0;
@@ -73,7 +76,7 @@ main {
     color: #ffffff;
     border: 1px solid #444;
     padding: 0.5rem;
-    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+    font-family: 'Departure', 'Cascadia Mono', monospace;
     resize: vertical;
     transition: height 0.3s ease; /* Smooth transition for height change */
 }
@@ -154,7 +157,7 @@ main {
     max-height: 200px;
     overflow-y: auto;
     margin-bottom: 0.5rem;
-    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+    font-family: 'Departure', 'Cascadia Mono', monospace;
     font-size: 0.7rem;
 }
 
@@ -166,7 +169,7 @@ main {
     cursor: pointer;
     font-size: 0.9rem;
     border-radius: 4px;
-    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+    font-family: 'Departure', 'Cascadia Mono', monospace;
 }
 
 .copy-button:hover, .refresh-button:hover {
@@ -292,7 +295,7 @@ main {
     width: 97%;
     padding: 0.5rem;
     margin-bottom: 1rem;
-    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+    font-family: 'Departure', 'Cascadia Mono', monospace;
     background-color: #2c2c2c;
     color: #ffffff;
     border: 1px solid #444;
@@ -302,7 +305,7 @@ main {
     width: 100%;
     padding: 0.5rem;
     margin-bottom: 1rem;
-    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+    font-family: 'Departure', 'Cascadia Mono', monospace;
     background-color: #2c2c2c;
     color: #ffffff;
     border: 1px solid #444;
@@ -396,7 +399,7 @@ footer {
 
 .modal form input {
     padding: 0.5rem;
-    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+    font-family: 'Departure', 'Cascadia Mono', monospace;
 }
 
 .modal form button {
@@ -629,7 +632,7 @@ nav a:hover {
     cursor: pointer;
     font-size: 0.9rem;
     border-radius: 4px;
-    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+    font-family: 'Departure', 'Cascadia Mono', monospace;
 }
 
 .delete-button:hover {
@@ -645,7 +648,7 @@ nav a:hover {
     cursor: pointer;
     font-size: 0.9rem;
     border-radius: 4px;
-    font-family: 'Space Mono', 'Cascadia Mono', monospace;
+    font-family: 'Departure', 'Cascadia Mono', monospace;
 }
 
 .gray-button:hover {
