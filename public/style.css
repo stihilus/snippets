@@ -654,3 +654,21 @@ nav a:hover {
 .gray-button:hover {
     background-color: darkgray; /* Darker gray on hover */
 }
+
+.snippet-header {
+    margin-bottom: 1rem;
+    font-size: 1.1em;
+}
+
+.snippet-username {
+    color: #EB5A29;
+    font-weight: bold;
+}
+
+.snippet-title {
+    color: #ffffff;
+}
+
+.snippet-title:hover {
+    color: #EB5A29;
+}

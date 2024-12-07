@@ -49,16 +49,25 @@ function renderSnippets() {
         gridItem.className = 'grid-item';
         gridItem.id = `snippet-${snippet.id}`;
 
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'snippet-header';
+
         const usernameElement = document.createElement('a');
         usernameElement.className = 'snippet-username';
-        usernameElement.textContent = `${snippet.username} - ${snippet.title}`;
+        usernameElement.textContent = snippet.username;
         usernameElement.href = `/user/${snippet.username}`;
-        gridItem.appendChild(usernameElement);
-
-        const snippetLink = document.createElement('a');
-        snippetLink.href = `/snippet/${snippet.id}`;
-        snippetLink.textContent = 'View Snippet';
-        gridItem.appendChild(snippetLink);
+        
+        const separator = document.createTextNode(' - ');
+        
+        const titleElement = document.createElement('a');
+        titleElement.className = 'snippet-title';
+        titleElement.textContent = snippet.title;
+        titleElement.href = `/snippet/${snippet.id}`;
+        
+        headerDiv.appendChild(usernameElement);
+        headerDiv.appendChild(separator);
+        headerDiv.appendChild(titleElement);
+        gridItem.appendChild(headerDiv);
 
         const canvasContainer = document.createElement('div');
         canvasContainer.className = 'canvas-container';
