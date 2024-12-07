@@ -366,11 +366,31 @@ updateInputCharCount();
 function handleInputFocus() {
     const codeInput = document.getElementById('code-input');
     codeInput.classList.add('expanded');
+    if (codeInput.value.trim() === '') {
+        codeInput.value = `function setup() {
+  createCanvas(windowWidth, windowHeight);
+  // Your setup code here
+}
+
+function draw() {
+  // Your drawing code here
+}`;
+    }
 }
 
 // Add this function to handle input blur
 function handleInputBlur() {
     const codeInput = document.getElementById('code-input');
+    if (codeInput.value.trim() === `function setup() {
+  createCanvas(windowWidth, windowHeight);
+  // Your setup code here
+}
+
+function draw() {
+  // Your drawing code here
+}`) {
+        codeInput.value = '';
+    }
     if (codeInput.value.trim() === '') {
         codeInput.classList.remove('expanded');
     }
