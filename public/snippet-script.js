@@ -48,11 +48,25 @@ function renderSnippet() {
     gridItem.className = 'grid-item';
     gridItem.id = `snippet-${currentSnippet.id}`;
 
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'snippet-header';
+
     const usernameElement = document.createElement('a');
     usernameElement.className = 'snippet-username';
-    usernameElement.textContent = `${currentSnippet.username} - ${currentSnippet.title}`;
+    usernameElement.textContent = currentSnippet.username;
     usernameElement.href = `/user/${currentSnippet.username}`;
-    gridItem.appendChild(usernameElement);
+    
+    const separator = document.createTextNode(' - ');
+    
+    const titleElement = document.createElement('a');
+    titleElement.className = 'snippet-title';
+    titleElement.textContent = currentSnippet.title;
+    titleElement.href = `/snippet/${currentSnippet.id}`;
+    
+    headerDiv.appendChild(usernameElement);
+    headerDiv.appendChild(separator);
+    headerDiv.appendChild(titleElement);
+    gridItem.appendChild(headerDiv);
 
     const canvasContainer = document.createElement('div');
     canvasContainer.className = 'canvas-container';
