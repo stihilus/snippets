@@ -214,7 +214,11 @@ function renderSnippets() {
         if (currentUser && currentUser.username === snippet.username) {
             const deleteButton = document.createElement('button');
             deleteButton.className = 'delete-button';
-            deleteButton.textContent = 'Delete';
+            const deleteIcon = document.createElement('img');
+            deleteIcon.src = 'assets/delete.svg';
+            deleteIcon.alt = 'Delete';
+            deleteIcon.className = 'button-icon';
+            deleteButton.appendChild(deleteIcon);
             deleteButton.addEventListener('click', () => handleDelete(snippet.id, gridItem));
             buttonContainer.appendChild(deleteButton);
         }
@@ -222,16 +226,24 @@ function renderSnippets() {
         // Add copy button
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
-        copyButton.textContent = 'Copy Code';
+        const copyIcon = document.createElement('img');
+        copyIcon.src = 'assets/copy.svg';
+        copyIcon.alt = 'Copy Code';
+        copyIcon.className = 'button-icon';
+        copyButton.appendChild(copyIcon);
         copyButton.addEventListener('click', () => copyCode(snippet.code, copyButton));
         buttonContainer.appendChild(copyButton);
 
         // Add refresh button
-        const refreshButton = document.createElement('button');
-        refreshButton.className = 'refresh-button';
-        refreshButton.textContent = 'Run';
-        refreshButton.addEventListener('click', () => refreshCanvas(snippet.id, snippet.code));
-        buttonContainer.appendChild(refreshButton);
+        const runButton = document.createElement('button');
+        runButton.className = 'run-button';
+        const runIcon = document.createElement('img');
+        runIcon.src = 'assets/run.svg';
+        runIcon.alt = 'Run';
+        runIcon.className = 'button-icon';
+        runButton.appendChild(runIcon);
+        runButton.addEventListener('click', () => refreshCanvas(snippet.id, snippet.code, canvasContainer));
+        buttonContainer.appendChild(runButton);
 
         // Add like button
         const likeButton = document.createElement('button');
@@ -326,21 +338,21 @@ function copyCode(code, button) {
     navigator.clipboard.writeText(code).then(() => {
         button.textContent = 'Copied!';
         setTimeout(() => {
-            button.textContent = 'Copy Code';
+            button.textContent = '';
         }, 2000);
     }).catch(err => {
         console.error('Failed to copy code: ', err);
         button.textContent = 'Failed to copy';
         setTimeout(() => {
-            button.textContent = 'Copy Code';
+            button.textContent = '';
         }, 2000);
     });
 }
 
 // Function to refresh a specific canvas
-function refreshCanvas(snippetId, code) {
-    const canvasContainer = document.getElementById(`canvas-${snippetId}`);
-    canvasContainer.innerHTML = '';
+function refreshCanvas(snippetId, code, canvasContainer) {
+    const canvasContainerElement = document.getElementById(`canvas-${snippetId}`);
+    canvasContainerElement.innerHTML = '';
     new p5(createSketch(code), `canvas-${snippetId}`);
 }
 

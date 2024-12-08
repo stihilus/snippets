@@ -181,6 +181,45 @@ main {
     gap: 0.5rem;
 }
 
+.button-container button {
+    padding: 8px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #1a1a1a;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Keep only run button orange */
+.run-button .button-icon {
+    filter: invert(37%) sepia(85%) saturate(2620%) hue-rotate(351deg) brightness(99%) contrast(93%);
+}
+
+.button-container button:hover {
+    background: #222222;
+}
+
+.delete-button:hover .button-icon {
+    filter: none;
+}
+
+.like-button:hover .button-icon {
+    filter: none;
+}
+
+.like-button.liked .button-icon {
+    filter: none;
+}
+
 .character-count {
     font-size: 0.7rem;
     padding: 0.2rem 0.4rem;
@@ -444,7 +483,7 @@ footer {
 }
 
 .like-button.liked img {
-    filter: invert(39%) sepia(89%) saturate(2242%) hue-rotate(330deg) brightness(101%) contrast(96%);
+    filter: none;
 }
 
 nav {
