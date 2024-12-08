@@ -176,6 +176,10 @@ main {
     background-color: #555555;
 }
 
+.copy-button.copied {
+    background: #333333;
+}
+
 .button-container {
     display: flex;
     gap: 0.5rem;

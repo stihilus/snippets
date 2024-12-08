@@ -163,16 +163,12 @@ function renderSnippets() {
 // Function to copy code to clipboard
 function copyCode(code, button) {
     navigator.clipboard.writeText(code).then(() => {
-        button.textContent = 'Copied!';
+        button.classList.add('copied');
         setTimeout(() => {
-            button.textContent = '';
-        }, 2000); // Reset button text after 2 seconds
+            button.classList.remove('copied');
+        }, 1000);
     }).catch(err => {
         console.error('Failed to copy code: ', err);
-        button.textContent = 'Failed to copy';
-        setTimeout(() => {
-            button.textContent = '';
-        }, 2000); // Reset button text after 2 seconds
     });
 }
 
