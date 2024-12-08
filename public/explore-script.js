@@ -141,19 +141,17 @@ h1 {
 
 @media (max-width: 1200px) {
     .explore-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .explore-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        padding: 15px;
     }
 }
 
 @media (max-width: 480px) {
     .explore-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding: 8px;
     }
 }
 `;
