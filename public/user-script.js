@@ -335,10 +335,13 @@ function createSketch(userCode) {
 
 // Function to copy code to clipboard
 function copyCode(code, button) {
+    const iconImg = button.querySelector('.button-icon');
     navigator.clipboard.writeText(code).then(() => {
         button.classList.add('copied');
+        iconImg.src = 'assets/copied.svg';
         setTimeout(() => {
             button.classList.remove('copied');
+            iconImg.src = 'assets/copy.svg';
         }, 1000);
     }).catch(err => {
         console.error('Failed to copy code: ', err);
