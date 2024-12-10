@@ -313,7 +313,7 @@ function showPreviewModal(code) {
     modalContent.appendChild(canvasContainer);
     
     // Show the modal
-    modal.style.display = 'block';
+    openModal('preview-modal');
     
     // Create p5 instance for preview after a short delay
     setTimeout(() => {
@@ -331,7 +331,7 @@ document.getElementById('post-button').addEventListener('click', () => {
 
 // Event listener for modal close button
 document.getElementById('close-modal').addEventListener('click', () => {
-    document.getElementById('preview-modal').style.display = 'none';
+    closeModal('preview-modal');
 });
 
 // Event listener for modal post button
@@ -341,7 +341,7 @@ document.getElementById('modal-post-button').addEventListener('click', () => {
     if (codeInput.value.trim() !== '') {
         createSnippet(codeInput.value, titleInput.value);
         codeInput.value = '';
-        document.getElementById('preview-modal').style.display = 'none';
+        closeModal('preview-modal');
     }
 });
 
@@ -510,12 +510,20 @@ function fetchSnippets() {
 
 // Function to open a modal
 function openModal(modalId) {
-    document.getElementById(modalId).style.display = 'block';
+    const modal = document.getElementById(modalId);
+    modal.style.display = 'flex';
+    // Trigger reflow
+    modal.offsetHeight;
+    modal.classList.add('show');
 }
 
 // Function to close a modal
 function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300); // Match the transition duration in CSS
 }
 
 // Event listeners for login and register buttons
