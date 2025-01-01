@@ -107,7 +107,7 @@ function renderSnippets() {
             const deleteButton = document.createElement('button');
             deleteButton.className = 'delete-button';
             const deleteIcon = document.createElement('img');
-            deleteIcon.src = 'assets/delete.svg';
+            deleteIcon.src = '../assets/delete.svg';
             deleteIcon.alt = 'Delete';
             deleteIcon.className = 'button-icon';
             deleteButton.appendChild(deleteIcon);
@@ -119,7 +119,7 @@ function renderSnippets() {
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
         const copyIcon = document.createElement('img');
-        copyIcon.src = 'assets/copy.svg';
+        copyIcon.src = '../assets/copy.svg';
         copyIcon.alt = 'Copy Code';
         copyIcon.className = 'button-icon';
         copyButton.appendChild(copyIcon);
@@ -130,7 +130,7 @@ function renderSnippets() {
         const runButton = document.createElement('button');
         runButton.className = 'run-button';
         const runIcon = document.createElement('img');
-        runIcon.src = 'assets/run.svg';
+        runIcon.src = '../assets/run.svg';
         runIcon.alt = 'Run';
         runIcon.className = 'button-icon';
         runButton.appendChild(runIcon);
@@ -165,10 +165,10 @@ function copyCode(code, button) {
     const iconImg = button.querySelector('.button-icon');
     navigator.clipboard.writeText(code).then(() => {
         button.classList.add('copied');
-        iconImg.src = 'assets/copied.svg';
+        iconImg.src = '../assets/copied.svg';
         setTimeout(() => {
             button.classList.remove('copied');
-            iconImg.src = 'assets/copy.svg';
+            iconImg.src = '../assets/copy.svg';
         }, 1000);
     }).catch(err => {
         console.error('Failed to copy code: ', err);
@@ -601,7 +601,7 @@ function handleLike(snippetId, likeButton) {
 
 // Add this function to update the like button appearance
 function updateLikeButton(button, likes) {
-    const iconSrc = button.classList.contains('liked') ? '/assets/fullHeart.svg' : '/assets/emptyHeart.svg';
+    const iconSrc = button.classList.contains('liked') ? '../assets/fullHeart.svg' : '../assets/emptyHeart.svg';
     button.innerHTML = likes > 0 ? `${likes} <img src="${iconSrc}" alt="Like">` : `<img src="${iconSrc}" alt="Like">`;
 }
 
